@@ -36,6 +36,7 @@ for day in range(7, 0, -1):
         until=date,
         result_type="mixed",
         since_id=yesterdays_latest_status,
+        tweet_mode="extended",
     )
 
     # Set to the date that's actually representative of the results
@@ -53,14 +54,13 @@ for day in range(7, 0, -1):
         total=tweets_per_day,
         leave=False,
     ):
-        if (
-            hasattr(tweet, "retweeted_status")
-            and tweet.retweeted_status.id not in tweets_dict
-        ):
-            tweets_dict[tweet.retweeted_status.id] = tweet.retweeted_status
-            retweeted += 1
-        elif tweet.id not in tweets_dict:
-            tweets_dict[tweet.id] = tweet
+        if hasattr(tweet, "retweeted_status"):
+            if tweet.retweeted_status.id not in tweets_dict:
+                tweets_dict[tweet.retweeted_status.id] = tweet.retweeted_status
+                retweeted += 1
+        else:
+            if tweet.id not in tweets_dict:
+                tweets_dict[tweet.id] = tweet
 
         if tweet.id > todays_latest_status:
             todays_latest_status = tweet.id
@@ -93,10 +93,11 @@ print(
     f"Total: {total_stats['total']} | Unique: {total_stats['unique']} | Retweets: {total_stats['retweets']} | Dict: {total_stats['dict']} | Dupes: {total_stats['dupes']}"
 )
 
-# tweets_dict = pickle.load(open("tweets_dict_2021-06-23.pickle", "rb"))
+# tweets_dict = pickle.load(open("tweets_dict_2021-06-21.pickle", "rb"))
 # for tweet in tweets_dict.values():
 #     print(tweet.created_at)
 #     print(tweet.retweet_count)
+#     print(tweet.full_text)
 
 # Take 1 day time slices of a trading week.
 # Collect 10k unique Tweets (`tweet.retweed_status`) per time slice.

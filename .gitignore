@@ -139,3 +139,7 @@ cython_debug/
 
 # Script outputs
 *.pickle
+*.csv
+
+# Huggingface
+cardiffnlp/
