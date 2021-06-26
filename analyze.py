@@ -69,7 +69,7 @@ def analyze_dict(date, model, tokenizer):
     print(f"Analysis for {date} complete.")
 
 
-if __name__ == "__main__":
+def analyze():
     # Out of curiosity, really.
     print("Number of processors: ", cpu_count())
 
@@ -84,6 +84,10 @@ if __name__ == "__main__":
     print("Initiating analysis...")
     with Pool(7) as p:
         p.starmap(analyze_dict, args)
+
+
+if __name__ == "__main__":
+    analyze()
 
 # ranking = np.argsort(scores)
 # ranking = ranking[::-1]
